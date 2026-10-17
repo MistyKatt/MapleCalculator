@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import { isBaseAttribute, type BaseAttribute } from "./base-attribute";
-import { isStats, type Stats } from "./stats";
+import { isPlayerStats, type PlayerStats } from "./player-stats";
 
 const attribute: BaseAttribute = {
   name: "STR", percentage: 0, value: 0, valueFinal: 0,
 };
-const stats: Stats = {
+const stats: PlayerStats = {
   primaryAttribute: attribute, secondaryAttribute: attribute, att: attribute,
   damage: 0, bossDamage: 0, criticalRate: 0, criticalDamage: 0, buffDuration: 0,
   ignoreElementalResistance: 0, summonDuration: 0, sacredForce: 0, arcaneForce: 0,
@@ -42,43 +42,43 @@ describe("BaseAttribute", () => {
   });
 });
 
-describe("Stats", () => {
+describe("PlayerStats", () => {
   it("accepts zero for every numeric field", () => {
-    expect(isStats(stats)).toBe(true);
+    expect(isPlayerStats(stats)).toBe(true);
   });
 
-  it.each([null, undefined, [], 0, "Stats", {}])("rejects invalid shapes: %j", (value) => {
-    expect(isStats(value)).toBe(false);
+  it.each([null, undefined, [], 0, "PlayerStats", {}])("rejects invalid shapes: %j", (value) => {
+    expect(isPlayerStats(value)).toBe(false);
   });
 
   it.each(["primaryAttribute", "secondaryAttribute", "att"] as const)("validates nested %s", (key) => {
-    expect(isStats({ ...stats, [key]: { ...attribute, value: -1 } })).toBe(false);
-    expect(isStats({ ...stats, [key]: undefined })).toBe(false);
+    expect(isPlayerStats({ ...stats, [key]: { ...attribute, value: -1 } })).toBe(false);
+    expect(isPlayerStats({ ...stats, [key]: undefined })).toBe(false);
   });
 
-  it.each(Object.keys(stats).filter((key) => typeof stats[key as keyof Stats] === "number"))(
+  it.each(Object.keys(stats).filter((key) => typeof stats[key as keyof PlayerStats] === "number"))(
     "requires a finite, nonnegative number for %s", (key) => {
       for (const value of invalidNumbers) {
-        expect(isStats({ ...stats, [key]: value })).toBe(false);
+        expect(isPlayerStats({ ...stats, [key]: value })).toBe(false);
       }
       const incomplete: Record<string, unknown> = { ...stats };
       delete incomplete[key];
-      expect(isStats(incomplete)).toBe(false);
+      expect(isPlayerStats(incomplete)).toBe(false);
     },
   );
 
   it.each(["sacredForce", "arcaneForce"] as const)("enforces integer bounds for %s", (key) => {
-    expect(isStats({ ...stats, [key]: 9998 })).toBe(true);
+    expect(isPlayerStats({ ...stats, [key]: 9998 })).toBe(true);
     for (const value of [0.5, 9998.5, 9999, 10000]) {
-      expect(isStats({ ...stats, [key]: value })).toBe(false);
+      expect(isPlayerStats({ ...stats, [key]: value })).toBe(false);
     }
   });
 
   it.each(["cooldownSkip", "cooldownReductionRate", "ignoreElementalDefense"] as const)(
     "enforces percentage bounds for %s", (key) => {
-      expect(isStats({ ...stats, [key]: 100 })).toBe(true);
-      expect(isStats({ ...stats, [key]: 0.5 })).toBe(true);
-      expect(isStats({ ...stats, [key]: 100.01 })).toBe(false);
+      expect(isPlayerStats({ ...stats, [key]: 100 })).toBe(true);
+      expect(isPlayerStats({ ...stats, [key]: 0.5 })).toBe(true);
+      expect(isPlayerStats({ ...stats, [key]: 100.01 })).toBe(false);
     },
   );
 
@@ -87,6 +87,6 @@ describe("Stats", () => {
     "ignoreElementalResistance", "summonDuration", "additionalStatusDamage",
     "cooldownReductionNumber", "finalDamage",
   ] as const)("allows fractional values above 100 for %s", (key) => {
-    expect(isStats({ ...stats, [key]: 1000.5 })).toBe(true);
+    expect(isPlayerStats({ ...stats, [key]: 1000.5 })).toBe(true);
   });
 });

@@ -1,7 +1,7 @@
 import { isBaseAttribute, type BaseAttribute } from "./base-attribute";
 
 /** General player combat attributes. All numeric fields must be finite. */
-export interface Stats {
+export interface PlayerStats {
   primaryAttribute: BaseAttribute;
   secondaryAttribute: BaseAttribute;
   att: BaseAttribute;
@@ -29,7 +29,7 @@ export interface Stats {
 }
 
 /** Checks shape and numeric constraints without coercing or clamping input. */
-export function isStats(value: unknown): value is Stats {
+export function isPlayerStats(value: unknown): value is PlayerStats {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     return false;
   }
@@ -47,10 +47,10 @@ export function isStats(value: unknown): value is Stats {
     "damage", "bossDamage", "criticalRate", "criticalDamage", "buffDuration",
     "ignoreElementalResistance", "summonDuration", "additionalStatusDamage",
     "cooldownReductionNumber", "finalDamage",
-  ] as const satisfies readonly (keyof Stats)[];
+  ] as const satisfies readonly (keyof PlayerStats)[];
   const percentageFields = [
     "cooldownSkip", "cooldownReductionRate", "ignoreElementalDefense",
-  ] as const satisfies readonly (keyof Stats)[];
+  ] as const satisfies readonly (keyof PlayerStats)[];
   const forceFields = ["sacredForce", "arcaneForce"] as const;
 
   return (

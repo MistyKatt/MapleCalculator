@@ -1,11 +1,11 @@
-# Stats and BaseAttribute
+# PlayerStats and BaseAttribute
 
 Requirement source: the feature request in the model/type discussion. GitHub
 Issue creation was unavailable (integration returned HTTP 403).
 
-`BaseAttribute` and `Stats` live in `src/lib/models/`. All fields are required;
+`BaseAttribute` and `PlayerStats` live in `src/lib/models/`. All fields are required;
 property names use camelCase. TypeScript uses `number` for both the requested
-Double and Int types. The `isBaseAttribute` and `isStats` type guards check
+Double and Int types. The `isBaseAttribute` and `isPlayerStats` type guards check
 unknown values at runtime. They return false for invalid inputs without
 coercing, clamping or supplying defaults. Additional properties are tolerated.
 
@@ -20,7 +20,7 @@ coercing, clamping or supplying defaults. Additional properties are tolerated.
 `valueFinal` is independently stored. No relationship or formula between it,
 `value` and `percentage` is specified.
 
-## Stats
+## PlayerStats
 
 | Properties | Constraint |
 | --- | --- |
