@@ -13,4 +13,4 @@ Read the repository-root `AGENTS.md` for the canonical branch pattern and delive
 4. Fetch `origin` when available and base independent work on current `origin/main`. Preserve uncommitted changes and divergent local commits; do not reset, force-checkout, auto-stash or delete branches. If there is no safe base or checkout would disturb unrelated work, explain the specific blocker before proceeding.
 5. Create the branch with `git switch -c NAME origin/main` when that base is available. Verify the resulting branch with `git branch --show-current` and report the name and base. If fetch was unavailable, disclose that before relying on a local main ref.
 
-Branch creation does not itself authorize pushing, opening a PR, merging or changing repository permissions. Follow the user's requested delivery scope for those actions.
+After implementation and required verification, follow the automatic delivery rule in `AGENTS.md` and `.agents/skills/maple-deliver-work/SKILL.md`: commit, push and create or reuse the work branch's PR. Leave merging for the user's review and authorization.

@@ -13,7 +13,10 @@
 - Start independent work from an up-to-date `main`. Do not rename existing branches or move uncommitted work merely to enforce this convention.
 - Keep the repository README absent at this stage. Put specific requirements and usage guides in `docs/` when needed.
 - Define requirements and acceptance criteria in a GitHub Issue. If access is unavailable, record them under `docs/` and report the limitation.
-- Use a PR for delivery. Merge only after CI, Codex review and owner review pass; do not merge just because implementation is complete.
+- When implementation is complete and required verification passes, commit the intended changes, push the work branch and create a ready-for-review PR targeting `main` if no open PR exists for it. This is the user's standing authorization; do not ask for routine push/PR confirmation. Follow `.agents/skills/maple-deliver-work/SKILL.md`.
+- If an open PR already exists, push new commits to its branch and update its title/body when scope or validation changes. Do not create duplicate PRs or empty commits. A local-only instruction for a particular task overrides automatic delivery.
+- Report verification failures or access blockers accurately; never claim a push, PR or CI result without confirmation. Runtime approval requirements still apply.
+- Merge only after CI, Codex review and owner review pass and the user authorizes merging. Opening a PR is the review handoff, not permission to merge.
 
 ## Architecture
 
