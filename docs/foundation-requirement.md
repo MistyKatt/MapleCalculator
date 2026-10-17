@@ -1,5 +1,7 @@
 # Project foundation
 
+This records the original foundation requirement. Its README requirement is superseded by [maintenance 001](maintenance-001.md), which removes that file for the current stage.
+
 ## Requirement
 
 Set up MapleCalculator's application and verification framework without adding gameplay calculations or character data features.
