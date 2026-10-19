@@ -30,7 +30,7 @@ convention `criticalDamage` and `criticalRate`.
 `GearLookup` is a `Map<string, GearBaseInfo>`, keeping keys as strings:
 
 ```ts
-import type { GearLookup } from "@/lib/models/gear-lookup";
+import type { GearLookup } from "@/lib/models/gear/gear-lookup";
 
 const lookup: GearLookup = new Map();
 // lookup.set(gearId, cleanGearInfo);

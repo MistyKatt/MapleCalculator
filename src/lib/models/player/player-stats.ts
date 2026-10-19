@@ -1,4 +1,4 @@
-import { isBaseAttribute, type BaseAttribute } from "./base-attribute";
+import { isBaseAttribute, type BaseAttribute } from "../shared/base-attribute";
 
 /** General player combat attributes. All numeric fields must be finite. */
 export interface PlayerStats {

@@ -1,4 +1,4 @@
-import { isGearPanel, type GearPanel } from "./gear-panel";
+import { isGearPanel, type GearPanel } from "../gear/gear-panel";
 
 export interface Player {
   gearPanel: GearPanel;
