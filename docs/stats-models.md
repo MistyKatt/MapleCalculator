@@ -3,7 +3,7 @@
 Requirement source: the feature request in the model/type discussion. GitHub
 Issue creation was unavailable (integration returned HTTP 403).
 
-`BaseAttribute` and `PlayerStats` live in `src/lib/models/`. All fields are required;
+`BaseAttribute` lives in `src/lib/models/shared/`; `PlayerStats` lives in `src/lib/models/player/`. All fields are required;
 property names use camelCase. TypeScript uses `number` for both the requested
 Double and Int types. The `isBaseAttribute` and `isPlayerStats` type guards check
 unknown values at runtime. They return false for invalid inputs without

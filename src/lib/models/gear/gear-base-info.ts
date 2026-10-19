@@ -1,4 +1,4 @@
-import { isTinyStats, type TinyStats } from "./tiny-stats";
+import { isTinyStats, type TinyStats } from "../shared/tiny-stats";
 
 /** Clean equipment information shared by instances with the same gear ID. */
 export interface GearBaseInfo {

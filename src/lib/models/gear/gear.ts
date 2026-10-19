@@ -1,4 +1,4 @@
-import { isTinyStats, type TinyStats } from "./tiny-stats";
+import { isTinyStats, type TinyStats } from "../shared/tiny-stats";
 
 /** Equipped item instance, referencing its clean information by gearId. */
 export interface Gear {

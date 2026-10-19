@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { isBaseAttribute, type BaseAttribute } from "./base-attribute";
-import { isPlayerStats, type PlayerStats } from "./player-stats";
+import { isBaseAttribute, type BaseAttribute } from "../shared/base-attribute";
+import { isPlayerStats, type PlayerStats } from "../player/player-stats";
 
 const attribute: BaseAttribute = {
   name: "STR", percentage: 0, value: 0, valueFinal: 0,

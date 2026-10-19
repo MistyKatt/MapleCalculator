@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { isGear, type Gear } from "./gear";
-import { isGearBaseInfo, type GearBaseInfo } from "./gear-base-info";
-import { isGearLookup, type GearLookup } from "./gear-lookup";
-import { isGearSlot, type GearSlot } from "./gear-slot";
-import { isGearPanel, type GearPanel } from "./gear-panel";
-import { isPlayer, type Player } from "./player";
-import { isTinyStats, type TinyStats } from "./tiny-stats";
+import { isGear, type Gear } from "../gear/gear";
+import { isGearBaseInfo, type GearBaseInfo } from "../gear/gear-base-info";
+import { isGearLookup, type GearLookup } from "../gear/gear-lookup";
+import { isGearSlot, type GearSlot } from "../gear/gear-slot";
+import { isGearPanel, type GearPanel } from "../gear/gear-panel";
+import { isPlayer, type Player } from "../player/player";
+import { isTinyStats, type TinyStats } from "../shared/tiny-stats";
 
 const attribute = { name: "STR", percentage: 0, value: 0, valueFinal: 0 };
 const tinyStats: TinyStats = {
