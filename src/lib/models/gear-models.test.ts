@@ -3,6 +3,9 @@ import { describe, expect, it } from "vitest";
 import { isGear, type Gear } from "./gear";
 import { isGearBaseInfo, type GearBaseInfo } from "./gear-base-info";
 import { isGearLookup, type GearLookup } from "./gear-lookup";
+import { isGearSlot, type GearSlot } from "./gear-slot";
+import { isGearPanel, type GearPanel } from "./gear-panel";
+import { isPlayer, type Player } from "./player";
 import { isTinyStats, type TinyStats } from "./tiny-stats";
 
 const attribute = { name: "STR", percentage: 0, value: 0, valueFinal: 0 };
@@ -10,13 +13,19 @@ const tinyStats: TinyStats = {
   int: attribute, str: attribute, luk: attribute, dex: attribute, att: attribute,
   damage: 0, bossDamage: 0, ignoreEnemyDefense: 0, criticalDamage: 0, criticalRate: 0,
 };
-const gear: Gear = { gearId: 123, gearStar: 0, gearFlame: tinyStats };
+const gear: Gear = { gearId: "123", gearStar: 0, gearFlame: tinyStats };
 const info: GearBaseInfo = {
   gearName: "Test gear", gearLevel: 0, gearStarCap: 5, gearBaseStats: tinyStats,
 };
+const slot: GearSlot = { equippedGear: gear, allowedGearList: ["Test gear"] };
+const panel: GearPanel = { gearSlots: [slot] };
+const player: Player = { gearPanel: panel };
 const invalidNumbers = [NaN, Infinity, -Infinity, "1", null, undefined, true];
 
 describe.each([
+  { name: "GearSlot", guard: isGearSlot, fixture: slot },
+  { name: "GearPanel", guard: isGearPanel, fixture: panel },
+  { name: "Player", guard: isPlayer, fixture: player },
   { name: "TinyStats", guard: isTinyStats, fixture: tinyStats },
   { name: "Gear", guard: isGear, fixture: gear },
   { name: "GearBaseInfo", guard: isGearBaseInfo, fixture: info },
@@ -68,11 +77,11 @@ describe("TinyStats", () => {
 });
 
 describe("Gear", () => {
-  it("requires an integer ID without imposing a sign restriction", () => {
-    for (const value of [-1, 0, 123]) {
+  it("requires a string ID without imposing a format restriction", () => {
+    for (const value of ["", "123", "hat-01"]) {
       expect(isGear({ ...gear, gearId: value })).toBe(true);
     }
-    for (const value of [0.5, ...invalidNumbers]) {
+    for (const value of [0, 123, NaN, null, undefined, true, {}]) {
       expect(isGear({ ...gear, gearId: value })).toBe(false);
     }
   });
@@ -107,22 +116,42 @@ describe("GearBaseInfo", () => {
 });
 
 describe("GearLookup", () => {
-  it("looks up clean information by numeric ID and handles missing IDs", () => {
+  it("looks up clean information by string ID and handles missing IDs", () => {
     const lookup: GearLookup = new Map([[gear.gearId, info]]);
     expect(isGearLookup(lookup)).toBe(true);
     expect(lookup.get(gear.gearId)).toBe(info);
-    expect(lookup.get(999)).toBeUndefined();
+    expect(lookup.get("999")).toBeUndefined();
     expect(isGearLookup(new Map())).toBe(true);
-    expect(isGearLookup(new Map([[-1, info], [0, info]]))).toBe(true);
+    expect(isGearLookup(new Map([["", info], ["hat-01", info]]))).toBe(true);
   });
 
   it("rejects non-Map inputs, invalid keys and invalid entries", () => {
     for (const value of [null, undefined, [], {}, { 123: info }]) {
       expect(isGearLookup(value)).toBe(false);
     }
-    for (const key of [0.5, ...invalidNumbers]) {
+    for (const key of [0, 123, 0.5, NaN, Infinity, null, undefined, true, {}]) {
       expect(isGearLookup(new Map([[key, info]]))).toBe(false);
     }
-    expect(isGearLookup(new Map([[1, info], [2, { ...info, gearLevel: 301 }]]))).toBe(false);
+    expect(isGearLookup(new Map([["1", info], ["2", { ...info, gearLevel: 301 }]]))).toBe(false);
+  });
+});
+
+describe("Equipment hierarchy", () => {
+  it("accepts empty panels, empty slots and unrestricted name lists", () => {
+    expect(isPlayer({ gearPanel: { gearSlots: [] } })).toBe(true);
+    expect(isGearSlot({ equippedGear: null, allowedGearList: [] })).toBe(true);
+    expect(isGearSlot({ ...slot, allowedGearList: ["Other gear"] })).toBe(true);
+  });
+  it("rejects invalid names, gear and nested slots", () => {
+    for (const allowedGearList of [null, "hat", [1], [null]]) {
+      expect(isGearSlot({ ...slot, allowedGearList })).toBe(false);
+    }
+    for (const equippedGear of [undefined, {}, { ...gear, gearId: 123 }]) {
+      expect(isGearSlot({ ...slot, equippedGear })).toBe(false);
+    }
+    for (const gearSlots of [null, {}, [null], [{ ...slot, equippedGear: {} }]]) {
+      expect(isPlayer({ gearPanel: { gearSlots } })).toBe(false);
+    }
+    expect(isPlayer({ gearPanel: null })).toBe(false);
   });
 });

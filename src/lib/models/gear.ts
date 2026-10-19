@@ -2,8 +2,8 @@ import { isTinyStats, type TinyStats } from "./tiny-stats";
 
 /** Equipped item instance, referencing its clean information by gearId. */
 export interface Gear {
-  /** Integer identifier; no sign or range restriction is specified. */
-  gearId: number;
+  /** String identifier matching a GearLookup key. */
+  gearId: string;
   /** Integer in [0, 30]. */
   gearStar: number;
   gearFlame: TinyStats;
@@ -16,8 +16,7 @@ export function isGear(value: unknown): value is Gear {
 
   const gear = value as Record<string, unknown>;
   return (
-    typeof gear.gearId === "number" &&
-    Number.isInteger(gear.gearId) &&
+    typeof gear.gearId === "string" &&
     typeof gear.gearStar === "number" &&
     Number.isInteger(gear.gearStar) &&
     gear.gearStar >= 0 &&
